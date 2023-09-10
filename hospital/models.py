@@ -1,7 +1,7 @@
 from django.db import models
 
 # from local
-from departments.models import Payment
+# from departments.models import Payment
 # I'm removing this beccause of recycle importing error
 
 # Create your models here.
@@ -76,8 +76,21 @@ class Patient(models.Model):
         """This function fetches and returns all invoices belong to the patient"""
         return self.invoice_set.prefetch_related("patient")
     
+    # def get_all_payments(self):
+    #     """This function fetches and returns all payments belonging to the patient"""
+    #     invoices = self.get_all_invoices()
+    #     payments = Payment.objects.filter(invoice__in=invoices).select_related('invoice')
+    #     return list(payments)   <- raised recycle error that is why I'm commenting it and 
+    #     I'm gonna do it by another way
+    
     def get_all_payments(self):
+        # this is new way to fetch all payments belonging to the patient
+        # it has little bit more steps and it might be slower than previous one 
+        # but it is not raising recycle error
         """This function fetches and returns all payments belonging to the patient"""
         invoices = self.get_all_invoices()
-        payments = Payment.objects.filter(invoice__in=invoices).select_related('invoice')
-        return list(payments)  
+        payments = []
+        for invoice in invoices:
+            invoice_paymnets = invoice.get_all_payments()
+            payments.append(*invoice_paymnets)
+        return payments
