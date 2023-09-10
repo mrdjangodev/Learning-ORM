@@ -1,5 +1,7 @@
 from django.db import models
 
+# from local
+from departments.models import Payment
 # Create your models here.
 
 class Specialization(models.Model):
@@ -30,15 +32,15 @@ class Doctor(models.Model):
     
     def get_all_appointments(self):
         """This function fetches and returns all appointments belong to the doctor"""
-        pass
+        return self.appointment_set.prefetch_related('doctor')
     
     def get_all_prescriptions(self):
         """This function fetches and returns all prescriptions belong to the doctor"""
-        pass
+        return self.prescription_set.prefetch_related('doctor')
     
     def get_all_lab_tests(self):
         """This function fetches and returns all labaratory tests belong to the doctor"""
-        pass
+        return self.labaratory_test_set.prefetch_related("doctor")
     
     
 class Patient(models.Model):
@@ -58,19 +60,22 @@ class Patient(models.Model):
     
     def get_all_admissions(self):
         """This function fetches and returns all admissions belong to the patient"""
-        pass
+        return self.appointment_set.prefetch_related('patient')
     
     def get_all_prescriptions(self):
         """This function fetches and returns all prescriptions belong to the patient"""
-        pass
+        return self.prescription_set.prefetch_related('patient')
     
     def get_all_lab_tests(self):
         """This function fetches and returns all labaratory tests belong to the patient"""
-        pass
+        return self.labaratory_test_set.prefetch_related("patient")
     
     def get_all_invoices(self):
         """This function fetches and returns all invoices belong to the patient"""
-        pass
+        return self.invoice_set.prefetch_related("patient")
     
     def get_all_payments(self):
-        """This function fetches and returns all payments belong to the patient"""
+        """This function fetches and returns all payments belonging to the patient"""
+        invoices = self.get_all_invoices()
+        payments = Payment.objects.filter(invoice__in=invoices).select_related('invoice')
+        return list(payments)

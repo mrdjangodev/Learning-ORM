@@ -34,9 +34,9 @@ class LabTest(models.Model):
         verbose_name = 'Labaratory Test'
         verbose_name_plural = "Labaratory Tests"
         ordering = ['-created_at']
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    appoinment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name = 'labaratory_test')
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name = 'labaratory_test')
+    appoinment = models.ForeignKey(Appointment, on_delete=models.CASCADE, related_name = 'labaratory_test')
     name = models.CharField(max_length=100)
     result = RichTextUploadingField()
     created_at = models.DateTimeField(auto_now_add=True)
