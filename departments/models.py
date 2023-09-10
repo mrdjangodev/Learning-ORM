@@ -51,12 +51,6 @@ class Amdission(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     bed = models.ForeignKey(Bed, on_delete=models.CASCADE)
-    STATUS_CHOICES = (
-        ('scheduled', "Scheduled"),
-        ('canceled', "Canceled"),
-        ('completed', "Completed"),
-    )
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='scheduled')
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
