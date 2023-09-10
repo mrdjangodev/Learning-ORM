@@ -19,11 +19,11 @@ class Department(models.Model):
     
     def get_all_beds(self):
         """Fetches all beds belonging to Department"""
-        pass
+        return self.bed_set.prefetch_related('department')
     
     def get_all_admissions(self):
         """Fetches all admissions belongning to Department"""
-        pass
+        return self.admission_set.prefetch_related('department')
 
 
 class Bed(models.Model):
@@ -43,6 +43,7 @@ class Bed(models.Model):
 
     def get_all_admissions(self):
         """Fetches all admissions belonging to bed"""
+        return self.admission_set.prefetch_related('bed')
     
     
 class Amdission(models.Model):
@@ -70,7 +71,7 @@ class Invoice(models.Model):
     
     def get_all_payments(self):
         """Fetches all payments belonging to invoice"""
-        pass
+        return self.payment_set.prefetch_related('invoice')
     
 
 class Payment(models.Model):

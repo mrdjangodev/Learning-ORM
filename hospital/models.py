@@ -2,6 +2,8 @@ from django.db import models
 
 # from local
 from departments.models import Payment
+# I'm removing this beccause of recycle importing error
+
 # Create your models here.
 
 class Specialization(models.Model):
@@ -78,4 +80,4 @@ class Patient(models.Model):
         """This function fetches and returns all payments belonging to the patient"""
         invoices = self.get_all_invoices()
         payments = Payment.objects.filter(invoice__in=invoices).select_related('invoice')
-        return list(payments)
+        return list(payments)  
