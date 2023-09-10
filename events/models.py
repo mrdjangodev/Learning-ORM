@@ -26,7 +26,7 @@ class Appointment(models.Model):
 
     def get_all_lab_test(self):
         """Fetches all Labaratory tests belonging to itself"""
-        pass
+        return self.labaratory_test_set.prefetch_related('appointment')
     
 
 class LabTest(models.Model):
