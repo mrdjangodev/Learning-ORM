@@ -14,7 +14,7 @@ class DoctorAdmin(admin.ModelAdmin):
     list_display = ['id', 'first_name', 'last_name', 'specialization', 'contact_number', \
         'email', 'address', 'image_preview', 'is_active', 'joining_date', 'updated_at']
     list_editable = ['is_active']
-    search_fields = ['id', 'first_name', 'last_name', 'specialization', 'contact_number', \
+    search_fields = ['id', 'first_name', 'last_name', 'specialization__name', 'contact_number', \
         'email', 'address', 'is_active', 'joining_date',]
     # filter_vertical = ['specialization']
     
@@ -24,6 +24,7 @@ class DoctorAdmin(admin.ModelAdmin):
         else:
             return None
     image_preview.short_description = 'Image'
+    
 admin.site.register(Doctor, DoctorAdmin)
 
 
