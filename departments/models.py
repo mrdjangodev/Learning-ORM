@@ -46,7 +46,7 @@ class Bed(models.Model):
         return self.admission_set.prefetch_related('bed')
     
     
-class Amdission(models.Model):
+class Admission(models.Model):
     class Meta:
         ordering = ['-created_at']
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
