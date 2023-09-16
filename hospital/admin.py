@@ -15,8 +15,8 @@ class DoctorAdmin(admin.ModelAdmin):
         'email', 'address', 'image_preview', 'is_active', 'joining_date', 'updated_at']
     list_editable = ['is_active']
     search_fields = ['id', 'first_name', 'last_name', 'specialization__name', 'contact_number', \
-        'email', 'address', 'is_active', 'joining_date',]
-    # filter_vertical = ['specialization']
+        'email', 'address', 'joining_date',]
+    list_filter = ['is_active', 'specialization']
     
     def image_preview(self, obj):
         if obj.image:
