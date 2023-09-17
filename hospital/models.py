@@ -56,8 +56,8 @@ class Patient(models.Model):
     contact_number = models.CharField(max_length=17)
     email = models.EmailField(blank=True)
     address = models.CharField(max_length=200)
-    insurance_provider = models.CharField(max_length=250)
-    insurance_policy_number = models.PositiveBigIntegerField()
+    insurance_provider = models.CharField(max_length=250, blank=True)
+    insurance_policy_number = models.CharField(max_length=25, blank=True)
     
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
