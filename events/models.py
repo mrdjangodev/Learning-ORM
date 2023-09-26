@@ -22,7 +22,7 @@ class Appointment(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='scheduled')
     
     def __str__(self):
-        return f"Appointment {self.id} | date time: {self.date_time} | status: {self.status}"
+        return f"Doctor: {self.doctor} & Patient: {self.patient} | date time: {self.date_time} | status: {self.status}"
 
     def get_all_lab_test(self):
         """Fetches all Labaratory tests belonging to itself"""

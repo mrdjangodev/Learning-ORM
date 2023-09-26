@@ -25,6 +25,13 @@ class Doctor(models.Model):
     contact_number = models.CharField(max_length=17)
     email = models.EmailField(blank=True)
     address = models.CharField(max_length=250)
+    SALARY_CURRENCIES = (
+        ('usd', "USD"),
+        ('eur', "EUR"),
+        ('uzs', "UZS"),
+    )
+    salary = models.DecimalField(max_digits=15, decimal_places=2, default=0.00)
+    salary_currency = models.CharField(max_length=3, choices=SALARY_CURRENCIES, default='usd')
     image = models.ImageField(upload_to='doctors/')
     is_active = models.BooleanField(default=True)
     joining_date = models.DateTimeField(auto_now_add=True)

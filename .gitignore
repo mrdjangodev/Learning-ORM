@@ -1,3 +1,5 @@
 env
 db.sqlite3
 media/
+hospital_app_db_structure.pdf
+retuirements.txt
