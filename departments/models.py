@@ -1,8 +1,10 @@
 from django.db import models
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # local things
 from hospital.models import Doctor, Specialization, Patient
+
 
 # Create your models here.
 
@@ -61,8 +63,15 @@ class Admission(models.Model):
 class Invoice(models.Model):
     class Meta:
         ordering = ['-created_at']
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('partly_paid', "Partly paid"),
+        ('paid', "Paid"),
+    )
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    status = models.CharField(max_length=11, choices=STATUS_CHOICES, default='pending')
     total_amount = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
+    residual_amount = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     
@@ -71,7 +80,7 @@ class Invoice(models.Model):
     
     def get_all_payments(self):
         """Fetches all payments belonging to invoice"""
-        return self.payment_set.prefetch_related('invoice')
+        return self.payment_set.prefetch_related('invoice')       
     
 
 class Payment(models.Model):
@@ -84,4 +93,20 @@ class Payment(models.Model):
     def __str__(self):
         return f"payment id: {self.id} | amount: {self.amount}"    
 
-    
+
+
+@receiver(post_save, sender=Payment)
+def update_invoice_status(sender, instance, created, **kwargs):
+    if created:
+        invoice = instance.invoice
+        
+        """Updating the residual amount based on the total amount and associated payments"""
+        total_payments = invoice.payment_set.aggregate(models.Sum('amount'))['amount__sum'] or 0.00
+        invoice.residual_amount = max(invoice.total_amount - total_payments, 0.00)
+        
+        """Changing invoice status"""
+        if invoice.residual_amount == 0.00:
+            invoice.status = 'paid'
+        elif invoice.residual_amount < invoice.total_amount:
+            invoice.status = 'partly_paid'  
+        invoice.save()
