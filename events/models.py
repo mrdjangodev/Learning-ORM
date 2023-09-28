@@ -24,7 +24,7 @@ class Appointment(models.Model):
     def __str__(self):
         return f"Doctor: {self.doctor} & Patient: {self.patient} | date time: {self.date_time} | status: {self.status}"
 
-    def get_all_lab_test(self):
+    def get_all_lab_tests(self):
         """Fetches all Labaratory tests belonging to itself"""
         return self.labaratory_test_set.prefetch_related('appointment')
     
