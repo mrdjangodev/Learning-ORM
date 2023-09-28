@@ -37,3 +37,10 @@ def filter_all_appointments_by_status(status:str):
         status (str): should be one of these ['scheduled', 'canceled', 'completed']
     """
     return Appointment.objects.select_related('doctor', 'patient').filter(status=status.lower())
+
+
+def get_all_doctors_belong_to_department(department:object):
+    """retrieves all Doctors belong to Department"""
+    doctors = Doctor.objects.select_related('specialization').filter(specialization__in=department.specializations.all())
+    return doctors
+    
