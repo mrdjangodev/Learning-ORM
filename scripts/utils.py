@@ -5,7 +5,7 @@
 # from local
 from hospital.models import Doctor
 from departments.models import Department
-
+from events.models import Appointment
 
 def get_all_head_doctors():
     """retrieves all HeadDoctors"""
@@ -28,3 +28,12 @@ def filter_doctors_by_currency_type(currency_type:str):
 
 def filter_doctors_by_is_active_status(is_active:bool = True):
     return Doctor.objects.filter(is_active=is_active)
+
+
+def filter_all_appointments_by_status(status:str):
+    """filters all Appointments by status('scheduled', 'canceled', 'completed')
+
+    Args:
+        status (str): should be one of these ['scheduled', 'canceled', 'completed']
+    """
+    return Appointment.objects.select_related('doctor', 'patient').filter(status=status.lower())
