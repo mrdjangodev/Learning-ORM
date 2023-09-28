@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # packages
     'ckeditor',
     'ckeditor_uploader',
+    'django_extensions',
     
     # my apps
     'hospital',
