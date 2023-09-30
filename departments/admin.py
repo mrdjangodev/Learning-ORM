@@ -31,7 +31,7 @@ admin.site.register(Admission, AdmissionAdmin)
 
 
 class InvoiceAdmin(admin.ModelAdmin):
-    list_display = ['id', 'patient', 'total_amount', 'created_at']
+    list_display = ['id', 'patient', 'total_amount', 'residual_amount', 'created_at']
     list_display_links = ['patient']
     search_fields = ['id', 'patient__first_name', 'patient__last_name']
 admin.site.register(Invoice, InvoiceAdmin)

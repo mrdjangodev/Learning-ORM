@@ -4,7 +4,9 @@
 
 # from local
 from hospital.models import Doctor
-from departments.models import Department, Bed
+from departments.models import (
+    Department, Bed, 
+    Invoice, )
 from events.models import Appointment
 
 def get_all_head_doctors():
@@ -55,3 +57,7 @@ def filter_beds_by_availabilty(avilability:str):
 py manage.py runscript orm_script
     """
     return Bed.objects.filter(availability=avilability)
+
+def filter_invoices_by_status(status: str):
+    """filter all invoices by status('pending', 'partly_paid', 'paid')"""
+    return Invoice.objects.filter(status=status.lower()).prefetch_related('patient')

@@ -9,7 +9,8 @@ from hospital.models import Patient, Doctor, Specialization
 from .utils import (
     get_all_head_doctors, filter_doctors_by_currency_type, 
     filter_doctors_by_is_active_status, filter_all_appointments_by_status,
-    get_all_doctors_belong_to_department, filter_beds_by_availabilty
+    get_all_doctors_belong_to_department, filter_beds_by_availabilty,
+    filter_invoices_by_status,
                     )
 
 def run():
@@ -27,8 +28,12 @@ def run():
     # department = Department.objects.first()
     # retrived_doctors_by_department = get_all_doctors_belong_to_department(department)
     # pprint(f"retrived_doctors_by_department: {retrived_doctors_by_department}")
-    filtered_beds = filter_beds_by_availabilty('available')
+    
+    # filtered_beds = filter_beds_by_availabilty('available')
+    # pprint(f"{filtered_beds}")
+    filtered_invoices = filter_invoices_by_status('PenDing')
+    pprint(filtered_invoices)
+    
     finish_time = time.time()
-    pprint(f"{filtered_beds}")
     print(f"Runtime: {finish_time-start_time}")
     pprint(connection.queries)
