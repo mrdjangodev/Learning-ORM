@@ -60,4 +60,4 @@ py manage.py runscript orm_script
 
 def filter_invoices_by_status(status: str):
     """filter all invoices by status('pending', 'partly_paid', 'paid')"""
-    return Invoice.objects.filter(status=status.lower()).prefetch_related('patient')
+    return Invoice.objects.filter(status=status.lower())
